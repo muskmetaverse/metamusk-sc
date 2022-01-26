@@ -1,0 +1,22 @@
+{
+  "name": "legendverse-meme-sc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@chainlink/contracts": "^0.2.2",
+    "@openzeppelin/contracts-upgradeable": "^4.3.2",
+    "@truffle/hdwallet-provider": "^1.4.1",
+    "truffle-flattener": "git+https://github.com/nomiclabs/truffle-flattener.git",
+    "truffle-plugin-verify": "^0.5.18"
+  },
+  "devDependencies": {
+    "@openzeppelin/truffle-upgrades": "^1.11.0"
+  }
+}
