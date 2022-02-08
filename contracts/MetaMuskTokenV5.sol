@@ -65,6 +65,27 @@ contract MetaMuskTokenV5 is
         uint256 lockAmount
     );
 
+    event BuyICO(
+        address buyer,
+        uint256 amount,
+        uint256 price
+    );
+
+    event AirdropEvent(
+        address receiver,
+        uint256 amount
+    );
+
+    event ChangedOperator(
+        address oldOperator,
+        address newOperator
+    );
+
+    event Claim(
+        address owner,
+        uint256 amount
+    );
+
     /**
      * @dev Sets the values for {name} and {symbol}.
      *
@@ -204,6 +225,8 @@ contract MetaMuskTokenV5 is
         address sender = _msgSender();
         tokenBUSD.safeTransferFrom(sender, address(this), amount);
         _buy(sender, buyAmountToken);
+
+        emit BuyICO(sender, buyAmountToken, totalAmountPerBUSD);
     }
 
     function buyICO() external payable {
@@ -215,9 +238,11 @@ contract MetaMuskTokenV5 is
 
         address sender = _msgSender();
         _buy(sender, buyAmountToken);
+
+        emit BuyICO(sender, buyAmountToken, totalAmountPerBUSD);
     }
 
-    function transferAirdrops(Airdrop[] memory arrAirdrop, uint256 totalAmount)
+    function transferAirdrops(Airdrop[] memory arrAirdrop)
         external
         onlyOperator
     {
@@ -225,7 +250,6 @@ contract MetaMuskTokenV5 is
             unlockTime != 0 && unlockPerSecond != 0,
             "unlockTime and unlockPerSecond must be != 0"
         );
-        _precheckAirdrop(totalAmount);
         for (uint256 i = 0; i < arrAirdrop.length; i++) {
             _transferAirdrop(arrAirdrop[i].userAddress, arrAirdrop[i].amount);
         }
@@ -262,7 +286,10 @@ contract MetaMuskTokenV5 is
      */
     function setOperator(address _operatorAddress) external onlyOwner {
         require(_operatorAddress != address(0), "Cannot be zero address");
+        address oldOperator = operatorAddress;
         operatorAddress = _operatorAddress;
+
+        emit ChangedOperator(oldOperator, _operatorAddress);
     }
 
     function burn(uint256 amount) external {
@@ -293,17 +320,23 @@ contract MetaMuskTokenV5 is
 
     function claimBNB() external onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
+
+        emit Claim(msg.sender, address(this).balance);
     }
 
     function claimBUSD() external onlyOwner {
         uint256 remainAmountToken = tokenBUSD.balanceOf(address(this));
         tokenBUSD.transfer(msg.sender, remainAmountToken);
+
+        emit Claim(msg.sender, remainAmountToken);
     }
 
     function claimToken() external onlyOwner {
         address sender = _msgSender();
         uint256 remainAmountToken = this.balanceOf(address(this));
         this.transfer(sender, remainAmountToken);
+
+        emit Claim(sender, remainAmountToken);
     }
 
     function setRoundInfo(
@@ -650,6 +683,8 @@ contract MetaMuskTokenV5 is
 
     function _transferAirdrop(address toAddress, uint256 amount) internal {
         _buy(toAddress, amount);
+
+        emit AirdropEvent(toAddress, amount);
     }
 
     function _precheckAirdrop(uint256 amount) internal view {
