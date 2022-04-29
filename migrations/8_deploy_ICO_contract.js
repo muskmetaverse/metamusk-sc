@@ -1,6 +1,5 @@
 const { deployProxy } = require('@openzeppelin/truffle-upgrades');
 
-const MetaMuskToken = artifacts.require("MetaMuskToken");
 const MetaMuskICO = artifacts.require("MetaMuskICO");
 
 const START_TIME_ICO = 1636340453;
@@ -16,7 +15,7 @@ module.exports = async function (deployer) {
         END_TIME_ICO,
         TOTAL_AMOUNT_PER_BUSD,
         BUSD_CONTRACT_ADDRESS,
-        MetaMuskToken.address,
+        "0xE95BA178Fc5A9ad4C4dF9ee79dBD34C76F96584E",
         PRICE_FEED_ADDRESS
     ], { deployer });
 

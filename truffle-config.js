@@ -11,11 +11,11 @@ module.exports = {
     'truffle-plugin-verify'
   ],
   api_keys: {
-    bscscan: "47ZH9UZCR9TXM8TUEMY1URN98WVN2MBA4T"
+    bscscan: "SHVRZRNK973GA5BKW5C6IVT1URZU9Y5KKM"
   },
   networks: {
     testnet: {
-      provider: () => new HDWalletProvider(privateKeyTestnet, `https://data-seed-prebsc-1-s3.binance.org:8545`),
+      provider: () => new HDWalletProvider(privateKeyTestnet, `https://data-seed-prebsc-2-s1.binance.org:8545`),
       network_id: 97,
       timeoutBlocks: 200,
       skipDryRun: true

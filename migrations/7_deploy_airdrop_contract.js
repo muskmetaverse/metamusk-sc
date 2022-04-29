@@ -1,13 +1,12 @@
 const { deployProxy } = require('@openzeppelin/truffle-upgrades');
 
-const MetaMuskToken = artifacts.require("MetaMuskToken");
 const MetaMuskAirdrop = artifacts.require("MetaMuskAirdrop");
 
-const OPERATOR_ADDRESS = '0x096E36E51AbdAD5387E826Fef1fd0D3B70D3b201';
+const OPERATOR_ADDRESS = '0x40BD94033dEb6D3d9EE1c8CFBfFae33fC11FB63d';
 
 module.exports = async function (deployer) {
     const instance = await deployProxy(MetaMuskAirdrop, [
-        MetaMuskToken.address,
+        "0xE95BA178Fc5A9ad4C4dF9ee79dBD34C76F96584E",
         OPERATOR_ADDRESS
     ], { deployer });
 
